@@ -1,0 +1,226 @@
+\section{Technical documentation}
+  This section presents a technical documentation according to Annex IV of the AIA.\@
+  It is created with the limited knowledge on the system available online and provided to us by Fraunhofer. If not stated otherwise, 
+  the information of the documentation is contrived by state-of-the-art approaches to AI.\@
+
+  \medskip
+  
+  \subsection{General description of the AI system (Annex IV 1.)}
+  \subsubsection{Purpose and People (Annex IV 1. a)}
+  Actuators power the traffic signal controllers that control today's traffic. Actuators are rule-based systems that are unsuitable for handling dynamic traffic, which results in an ineffective utilization of the current infrastructure. Congestion, health issues, and financial loss are caused by inefficiency. The system's goal is to switch out traditional sensors for radar and cameras that can stream traffic in real-time. The traffic volume measured during periods of high traffic and simulation is currently being used to train the reinforcement learning agents. In this approach, the algorithms are taught to identify the best phase sequence and optimum switching behavior for traffic lights, thereby reducing commuting times, waiting periods at crossings, noise pollution, and CO2 emissions.
+ \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.9\textwidth]{paper-template/figs/logo.jpg}
+        \caption{Research teams}
+        \label{fig:my_label}
+\end{figure} 
+The team from the Fraunhofer Institute for Optronics, System Technologies and Image Exploitation IOSB, researchers in the institute branch for industrial automation INA in Lemgo are the ones developed an artificial intelligence system for smart traffic light control. The system was completed in August 2022.
+  \subsubsection{Interacting with other Hardware and Software (Annex IV 1. b)}
+  There are additional components in the system including the networking components and sensors. There is wireless communication via WLAN (60 GHz) for the exchange of data between the edge computer and the control unit. OCIT (Open Communication Interface for Road Traffic Control Systems) is an open standard used for communicating between the decentralized components to the central components. The data exchange includes the current phase and phase transition.
+  \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.9\textwidth]{paper-template/figs/Hardware.png}
+        \caption{Camera, InnosenT Radar, RF Beam Radar}
+        \label{fig:my_label}
+\end{figure} 
+Cameras are used to obtain high-resolution information, including vehicle position, waiting time, and class, which includes car, truck, bus, and bike.
+InnoSenT radars, which can detect objects up to 350 m away and track them at 230 km/hr, are used.\\
+There is one InnoSen radar sensor that measures 117 m to the east and 87 m to the north. In the motion zone, the radar provides the exact speed, class, and direction of the vehicle. Each time a new car enters the zone, the data is updated. In the presence zone, the radar measures the queue length and number of vehicles. The power supply is 24 Volts Direct Current (VDC), which is approximately 36 watts. The field of view for the radar is azimuth: 110°, elevation: 30°. [\citet{KI4LSA_presentation}]
+There are two RF beam radar sensors that measure 70 m to 80 m and the object speed at 100km/h. The radar sends raw data to the edge computer, which runs Nvidia's Jetson-AGX-Xavier HW. Every second, raw data containing position, speed, and direction is sent. The field of view for the radar is azimuth: 110°, elevation: 30°. The RF beam radar is powered by approximately 3.6 watts. The radar is tested for 4 weeks in the first period and 2 weeks in the second period. [\citet{KI4LSA_presentation}]
+Computer vision is used to interpret images from the video stream. The Yolo object detection is used to detect vehicles and classify them into four categories. 
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.9\textwidth]{paper-template/figs/computer vison.png}
+        \caption{Computer vison pipeline}
+        \label{fig:my_label}
+\end{figure} 
+The track and position accuracy metrics are obtained from the video stream for individual vehicles then a summary of metrics per lane is provided, including queue length and maximum waiting time. The methodology used to validate the computer vison is to compare the manuals of vehicles in both lanes to the machine-generated data. The result is 83\% accuracy across tracks.
+   \subsubsection{Version of software used (Annex IV 1. c)}
+The simulation model called LemgoRL is an open-source tool used to train and evaluate the Reinforcement learning agent.[\citet{traffic_signal_control_with_rl}] The model contains the realistic simulation environment "OWL322" intersection in Lemgo, a medium-sized town in Germany. It is built using SUMO, an open-source tool used to provide the required simulation environment. The environment for the 
+simulation model is developed with python.[\citet{traffic_signal_control_with_rl}]
+  \subsubsection{How the System is put to service (Annex IV 1. d)}
+The AI system is put into service as the optimum solution to manage the traffic flow in the congested intersection which the current system is inadequate to handle. The system is also managed to be efficient between 10 to 15\% which is an economic gain as well as an environmental gain. The safety layer to double-check the results from the AI system ensure the safety by design principle deployed in the KI4LSA. 
+  \subsubsection{Hardware the System is Running (Annex IV 1. e)}
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.9\textwidth]{paper-template/figs/edge computer.png}
+        \caption{AI Hardware}
+        \label{fig:my_label}
+        \end{figure} 
+The calculation runs on an edge computer at the control box of the real intersection. The AI system is powered by Nvidia Jetson AGX Xavier, with leading performance and power efficiency designed for the convergence of computer vision and AI. It is by far the most potent GPU-powered machine created for edge AI. It is also made to be energy-efficient. Equipped with a 7-way VLIW vision processor, 512-core Volta GPU with tensor cores, eight ARMv8.2 "Carmel" CPU cores, 16GB of LPDDR4x memory, 32GB of eMMC5.1 storage, two NVDLA deep learning accelerators, and 20x the performance and 10x the power efficiency of the Jetson TX2. [\citet{NVIDIA_Jetson_AGX_2022}] 
+Evaluation and aggregation of the sensor data on a compact computer on site for determining vehicle position, speed, and class data processing. Data from camera or radar sensors are processed in real-time by a feature extraction module that transforms them into an state for the Reinforcement learning agent. [\citet{(Muller_et}] Based on that state, the RL agent selects the next phase in the traffic controller.
+
+  \subsubsection{Where the AI System is a component of other products (Annex IV 1. f)}
+  Does not apply to us.
+  \subsubsection{Instructions of use for the user and installation instructions (Annex IV 1. g)}
+  \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.9\textwidth]{paper-template/figs/Survey from the users.png}
+        \caption{Survey from the 5 municipalities participated}
+        \label{fig:my_label}
+        \end{figure}
+There is complexity in the system, and collaboration between regulatory bodies and research teams is more important than ever. This is achieved through multi-stakeholder workshops to achieve bench-marking solutions and project handover, and it has happened in the past.
+Municipalities are among the stakeholders interested in implementing smart solutions for congested intersections.[\citet{KI4LSA_presentation}] The knowledge sharing is organized through workshops with the municipalities. The session covered results and findings from the discussion, technical requirements, and checking the status in relation to regulatory requirements for implementation. The evaluation from the workshop showed that the project can be implemented immediately  with  effort. The technical requirement includes auditing the existing infrastructure for implementing the system. The project handover happens in a phase as it involves know-how, and making AI familiarized to the municipal authority needs adequate time. After these steps, involving the public in understanding the safety of the system is crucial for the goal of the project.
+  \subsection{Detailed description of AI System elements (Annex IV 2.)}
+  Current traffic light controls are rule-based, the rigid rules do not apply to all traffic situations. In addition, the existing sensors – induction loops embedded in the asphalt – only roughly depict the traffic situation. \\
+  Instead of conventional sensors, in the "KI4LSA" and "KI4PED" projects, researchers at the Fraunhofer Institute for Optronics, System Technologies and Image Exploitation IOSB, branch for industrial automation INA in Lemgo implement high-resolution camera and radar sensors that record traffic events more precisely. The number of vehicles waiting at the intersection can be recorded in real time, true to the lane. The average speed of the cars and the waiting time are also detected. The real-time sensors are combined with artificial intelligence, which replaces the rigid control rules.
+  \subsubsection{Method and steps performed for development (Annex IV 2. a)}
+  The AI for "KI4LSA" uses deep reinforcement learning algorithms. This machine learning method focuses on finding intelligent solutions to complex control problems. They built a realistic simulation model of the Lemgo junction where the tests took place and let the AI train countless iterations in this model. Beforehand, they transferred the measured traffic volume during rush hour to the simulation model so that the AI can work with real data. The result is an agent trained using Deep Reinforcement Learning, a neural network that represents the traffic light control.\\
+  Deep reinforcement learning (deep RL) is a subfield of machine learning that combines reinforcement learning (RL) and deep learning. RL considers the problem of a computational agent learning to make decisions by trial and error. Deep RL incorporates deep learning into the solution, allowing agents to make decisions from unstructured input data without manual engineering of the state space. Deep RL algorithms can take in very large inputs (e.g., every pixel rendered to the screen in a video game) and decide what actions to perform to optimize an objective (e.g., maximizing the game score).
+  \begin{figure}[h]
+        \includegraphics[width=0.9\textwidth]{paper-template/figs/DeepRL1.jpg}
+        \caption{Deep Reinforcement Learning}
+        \label{fig:my_label}
+        \end{figure}
+  \subsubsection{Design specifications of the system (Annex IV 2. b)}
+  The system consists of additional sensors and edge computer at the traffic lights in order collect real time traffic data which is processed by the edge computer to make correct actions. The system also includes connection to services (e.g., Dashboard) and an interface between control unit and edge computer. To connect the edge computers to a central computer, they use standardized protocol Open Communication Interfaces for Road Traffic Control Systems (OCIT). To integrate AI in real operation, data exchange takes place using Ethernet. This allows for faster data exchange, scalability and reduce errors.
+  
+  \subsubsection{Description of the System architecture (Annex IV 2. c)}
+  Agents in Deep RL algorithm typically uses neural networks to classify the input data into categories. The goal of the agent is to make decision based on collecting as much rewards as possible (cumulative reward). \\
+Thus, the agent tries to minimise the travel time for vehicles and pedestrians. Learning and training involves adjusting the weights of neural network so that good actions are chosen to collect as much cumulative reward as possible.\\
+ \begin{figure}[h]
+        \includegraphics[width=0.9\textwidth]{paper-template/figs/sytemarchitecture.jpg}
+        \caption{AI System Architecture}
+        \label{fig:my_label}
+        \end{figure} \newline
+\textbf {Integration of AI in Real Operation:}\newline
+The second part of the Deep RL system is the environment which provides the state and reward data back to the agent. The environment of KI4LSA is divided into 3 parts[\citet{KI4LSA_presentation}]:
+\begin{enumerate}
+\item 	LemgoRL : This unit maps the action to phase wish. It sends the phase wish into REST request so that valid states are chosen. According to the received signal states, LemgoRL sets the traffic lights into new state. It calculates the observations and rewards and allows the AI system to make a right decision.
+\item Traffic Signal Logic Unit (LISA) : This unit makes sure the next phase/state chosen is in compliance with all relevant requirements. This ensures that any unknown state or wrong phase is not chosen.
+\item Simulation Model (SUMO): SUMO is Simulation of Urban Mobility. Basically, this unit runs a simulation of the state and provide current traffic information for the LemgoRL unit to calculate rewards.
+\end{enumerate}
+ 
+
+  \subsubsection{Training data (Annex IV 2. d)}
+  To ensure a fair comparison, they train each RL agent for each controller 5 times with different random seeds while they use the same set of random seeds for each controller. This makes in total
+15 agents. The training is done in the LemgoRL framework.[\citet{KI4LSA_presentation}] They
+calculate the average over all lanes respectively pedestrian
+crosswalks and all 10 runs for the following traffic metrics:
+\begin{enumerate}
+\item queue: The length of the queue of waiting vehicles
+(velocity < 0.1m/s) in a lane
+\item wait veh: The maximum time a vehicle waits in a
+lane when the signal color is red
+\item speed: The average speed of all vehicles in a lane
+\item wait ped: The maximum time a pedestrian waits for
+a green signal at a crosswalk
+\item stops: The avg. number of stops of a vehicle while
+it approaches the intersection
+\item travel time: The avg. time for a vehicle to cross
+the intersection
+\end{enumerate}
+Also, they compute the cumulative reward a controller
+collects during a run. For the reward function, we extend the
+definition in [5] to include stops total, the number of
+all vehicles stops in a lane at a given time t: \newline \newline
+\begin{math}
+r_{t+1} = -\sum_l (\alpha_q . queue_{t+1}[l]+\alpha_{w,veh}.waitveh_{t+1}[l] + \alpha_{w,ped}.waitped_{t+1}[l] + \alpha_{st}.stopstotal_{t+1}[l]) \end{math} \newline \newline
+where l denotes an incoming lane or pedestrian crosswalk
+of the intersection and \begin{math} \alpha_{q}, \alpha_{w,veh}, \alpha_{w,ped}, \alpha_{st} \end{math} are coefficients for weighting the individual components.\\
+For all RL agents they used the Proximal Policy Optimization algorithm with the hyperparameters.\\
+RL is data inefficient. Hence many training runs are necessary to optimize the algorithm and set the right hyperparameters. This is computationally intensive. Hence there is a need for parallelization of training process and use of high-performance hardware.\\
+\begin{figure}[h]
+        \includegraphics[width=0.9\textwidth]{paper-template/figs/trainingdata.jpg}
+        \caption{Comparison of hardware requirement for training}
+        \label{fig:my_label}
+        \end{figure} \newline
+Another concern is the simulation to reality gap. To reduce it and get results as close to real situation, noised data is introduced. Traffic volume, vehicle length, driving behaviour, weather, noise due to sensor, etc.  are just a few types. 
+  \subsubsection{Human oversight needed (Annex IV 2. e)}
+  Since Deep RL is used in the AI system, the results are obtained automatically. Basically the deep learning module is a black box and hence there is very less control over the methodology in which the result is obtained. To overcome this, there is a security layer which ensures that only results compliant with the traffic rules are considered. Human oversight can only be done in the form of type of deep learning model chosen and hardware used for the system. During simulation, results obtained are good but the same cannot be said when AI system is implemented in real scenarios. Rigorous testing needs to be done in order to use it for real scenarios.
+  \subsubsection{Future changes to comply with High Risk System requirements (Annex IV 2. f)}
+  To use the traffic light systems for pedestrians, Fraunhofer is working on the project KI4PED. Particularly vulnerable people such as the elderly or people with disabilities should benefit from this. The aim is to shorten waiting times and increase safety at traffic lights by longer crossing times. According to current studies, the green phases are too short for these groups of people.\\
+  The buttons currently installed, mostly small yellow boxes, provide neither information about the number nor the age or even the infirmity of the passers-by. By implementing AI in combination with high-resolution LiDAR sensors, the project partners want to automate the process and automatically adjust and grade the crossing times to the needs of the respective pedestrians. Person detection and tracking is achieved based on LiDAR data using AI and implemented in an embedded system in real time.\\
+  For reasons of data protection, we use LiDAR sensors instead of camera-based systems, since they represent pedestrians as 3D point clouds, and they cannot therefore be identified. LiDAR (Light Detection and Ranging) sensors emit laser beams to measure distances and detect the backscattered light. The distance to the object, i.e., to the person, is determined from the transit time of the light. These sensors are also robust against lighting, reflection, and weather influences. Their optimal positioning and orientation at the traffic light crossing will be examined as part of a feasibility study
+  \subsubsection{Validation and Testing procedures (Annex IV 2. g)}
+  In the validation, the accuracy was considered on the level of single image the AI gets its metrics 1 time per second based on 5 aggregated images, thus increasing robustness. Further increase in robustness can be achieved through using filters like compensating for large, obscuring vehicles. AI can be supplied with data using video cameras and image processing. \\
+  Accuracy was used as a performance measure. The computer vision provided the accuracy of 83\% across all tracks. The results from the agent cannot be controlled as the Deep RL uses deep learning techniques; it basically is a black box. This is the reason a security layer is used to ensure that the results are in compliance with the traffic system.
+  \subsection{Predicted and known limitations (Annex IV 3.)}
+  
+There are a few points where the robustness and accuracy of the system could be compromised.\\
+At a very basic hardware level, the connection between the different traffic lights to the edge computer could be interrupted. The connection is done with 5 GHz WiFi which is not always perfectly stable. If it were interrupted and no data was sent from one of the cameras or radar systems, the timestamps would be wrong and the system would switch back to the conventional method of switching traffic lights.
+
+The same mechanism is used when one of the sensors is not working properly and transmitting no data, the AI system would shut itself off and try to restart all the systems. If it were the other way around and the AI system died, the control device in the traffic light system would not receive data anymore and switch to the conventional traffic light system as well. [\citet{KI4LSA_presentation}]\\
+At the software level, the first algorithm that could be wrong would be the YOLO (You only look once) neural net labeling the cars driving through the intersection and counting them. The accuracy of the computer vision across all lanes is about 83\% [\citet{KI4LSA_presentation}] which sounds like it is not enough but as it is only used for counting the cars and poses no risk to the security of the system as I will later show it doesn't matter much.\\
+The KI4LSA system does not identify persons, as it is only used on cars so there's no risk of discrimination for different groups of persons based on details about the persona.
+
+It could be possible that one car would be determined as not important enough to let through because of a lot of cars in other lanes, this poses a psychological harm to some drivers and potentially a problem to the safety of the junction but this is managed by the risk management system.
+
+Possible risks include wrong traffic lights determined by the system based on any amount of errors mentioned before or unforeseen errors.
+If there are faults in the commands by the system it would very likely lead to crashes at the junction which could include human harm and even death. As there are also pedestrians walking around it could also involve them as innocent bystanders. This makes it clear again why this should be considered a high-risk system and also why we made the environment and variables of the system "safe-by-design" which I will elaborate on later.
+
+As this was a research project the system and findings were measured and overseen by many people. This was made possible by different dashboards measuring the different data collected from the traffic lights as well as data collected by the computer vision system.
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.8\textwidth]{paper-template/figs/dashboard.png}
+        \caption{Camera view of the junction and different data}
+        \label{fig:my_label}
+\end{figure}
+
+As seen below, it is also possible to view and compare the waiting times and get a general overview of the traffic pass-through. Which is important for monitoring the performance of the system when deployed.\\
+
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.9\textwidth]{paper-template/figs/dashboard_time.PNG}
+        \caption{Comparison and overview of the different wait times and flows.}
+        \label{fig:my_label}
+\end{figure}
+
+Although it seems simple trying to understand the system's decisions is often very complex and is not really feasible in practice. This is why the environment and algorithm were made "safe by design" to not have to worry of any possible risks about the system going rogue. \newline
+
+  \subsection{Risk management system (Annex IV 4.)}
+Because the AI system developed is used in infrastructure it is determined as a "High-risk" AI system and therefore needs according to Article 9 of the AIA [\citet{ai_act}] a Risk management system.
+
+Because the system should be inherently safe it was decided to do a "safe-by-design" approach towards the project with an extra security layer.
+In the beginning, it was determined too risky for the system choose each light independently without some inherent constraints. That's why there was a phase system introduced to LemgoRL.
+
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.8\textwidth]{paper-template/figs/risk_management_2.png}
+        \caption{Traffic phases of LemgoRL and their transitions presented as a graph. The single-lined arrows represent the permitted directions of travel for vehicles and the double-lined arrows indicate that pedestrians are allowed to cross the street in the respective direction.}
+        \label{fig:my_label}
+    \end{figure}
+The AI can only choose between the eight different action spaces (1-8/0-7 in computer science). This makes sure that there are no contradicting lights so for instance, a phase transition from phase 2 (vehicles west and east as well as pedestrians north and south) to phase 3 (only vehicles west and east) requires phase 2 to be active for at least 10s, so that pedestrians can safely cross the street before they get a red signal. This ensures that there is no way the system could make a contradicting choice. [\citet{traffic_signal_control_with_rl}]
+
+With those constraints it would still be possible for the AI to for example make a 3 $\rightarrow$ 1 $\rightarrow$ 3 sequence if there are a lot of vehicles east and west. This would pose a bad psychological effect on individual drivers as it is from their view not at all logical. To counteract this a psychological action mask (A common mechanism used in reinforcement learning) is used which basically means that the model "knows" unwanted behaviour and is prohibited from doing so.
+
+This was also tested with and without the psychological mask and although traffic flow is better without the mask it was determined that this poses a risk to road safety.
+
+To fulfill the requirements set out in Article 9 paragraph 2 of the AIA [\citet{ai_act}] there is also an iterative process running in the system checking that the aforementioned requirements are always kept. There is also a mechanism in progress checking that the model still produces the wanted results and that there are no accidents due to the new system.
+
+To double-check the safety constraints are upheld, the phase system is also placed as a safety layer in an independent system between the AI model and the traffic light controllers. So basically the Reinforcement agent only gives recommendations that the Safety Layer has to approve before the controller acts on them.
+
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.8\textwidth]{paper-template/figs/risk_management_1.PNG}
+        \caption{Safety layer placed in the traffic light system.}
+        \label{fig:my_label}
+    \end{figure}
+    
+The measures were tested beforehand in the simulation and showed great results. It was also tested in reality at the beginning of 2022 during which time no accidents occurred. The AI system makes perfectly safe recommendations in 1 out of 10.000 scenarios and when it doesn't the safety layer is there to protect the integrity of the junction.
+
+The system poses a particular risk to children because they are passengers of the cars crossing the street but as no children are identified or are a variable in our model we did not that them into particular consideration.
+
+
+\subsection{EU declaration of conformity (Annex IV 7.)}
+This is the EU Declaration of Conformity for the AI System by Fraunhofer. I have to declare that this was drawn up by Benedikt Schwankner who is in no way associated with Fraunhofer and does not have all of the information about the development process. This document holds no legal value.
+\begin{enumerate}
+    \item The unique identification of the System is "KI4LSA" by Fraunhofer IOSB-INA
+    \item Provided by Fraunhofer IOSB-Ina in Campusallee 1, 32657 Lemgo, Germany
+    \item This declaration of conformity is issued under the sole responsibility of Fraunhofer IOSB-INA
+    \item The AI system is in conformity with the AIA and especially the requirements for High-Risk Systems
+    \item No harmonised standards of the EU were used but state of the art frameworks and tools by other providers recognized and reviewed by peers
+    \item The system was presented to the BMDV (Bundesministerium für Digitales und Verkehr) and BMWK (Bundesministerium für Wirtschafts und Klimaschutz) was notified as a NANDO authorised body
+    \item Drawn up in Munich on 02-12-2022 by Benedikt Schwankner as a dummy with no function at Fraunhofer
+\end{enumerate}
+
+
+\subsection{Evaluation in post-market phase (Annex IV 8.)}
+  
+  A post-market monitoring and a risk management system will be established according to Art. 61 of the AI Act proposal [\citet{ai_act}].
+Monthly evaluations will be conducted by the provider to ensure the AI system performance. Required data will be gathered through automatic recording (logs) locally and give therefore the possibility to trace events. The following date will be recorded: start date and time and end date and time of each use, the reference database and the input data (Art. 12). 
+
+Furthermore, said evaluations will be published for reasons of transparency (Art.13) and include: the identity and the contact details of the provider, the characteristics, capabilities and limitations of performance of the AI traffic light system, all changes made, expected lifetime of the AI system and human oversight measures.
+The data can also be accessed through the provided dashboard [\citet{KI4LSA_presentation}], as required in Art. 14 and performed by employees of the municipality. Employees are given necessary instructions and training to perform the required tasks. The dashboard also gives the possibility to intervene in an AI related operation and bring it to a halt.
+
+Should technical changes occur, will the technical documentation  be updated accordingly (Art.11) To meet the requirements in Art. 15 the connection between the traffic lights and the employees is high-level encrypted and state of the art cybersecurity is in place. There is always a fallback option in case errors occur [\citet{seick}].

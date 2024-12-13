@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{abstract}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage[round]{natbib}
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked,
+}
+
+\usepackage[style=numeric,backend=bibtex]{}
+
+\title{A Technical And Ethical Analysis Of `Automatic and Predictive Traffic Light Systems for Public Roads' In The Context Of The European AI Act}
+\date{December 4, 2022}
+\author{
+        \textit{Aravindh Ramasamy}\\
+        \textit{Benedikt Schwankner}\\
+        \textit{Uppili Srinivasan}\\
+        \textit{David-Peregrin Hain}\\
+        \textit{Till-Ole Lohse}
+  %% \and \ldots
+}
+
+\begin{document}
+  \maketitle
+
+  \begin{abstract}
+    This is a paper for educational purposed written by five students of \emph{TUM for the The EU’s Draft AI Act: From framework to practical application} Seminar in the WS 22/23. In this paper we wrote an introduction to the EU's Draft AI Act and the Fraunhofer’s \emph{Automatic and Pre-dictive Traffic Light Systems for Public Roads}. Following this we applied the Articles of the AIA to the AI system of Fraunhofer and wrote a technical documentation with the information we got from them about the model as required by the AIA. The paper is closed by a ethical analysis of any dangers this system poses.
+  \end{abstract}
+  \newpage
+  
+  \tableofcontents
+
+  \include{Introduction}
+  \include{B}
+  \include{C}
+  \addcontentsline{toc}{section}{References}
+ \bibliographystyle{apalike} 
+\bibliography{bib}
+\end{document}
